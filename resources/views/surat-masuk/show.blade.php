@@ -1,13 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Show Surat Masuk</title>
-</head>
-<body>
-    <h1>Show Surat Masuk</h1>
-    <p>Ini adalah halaman detail surat masuk ID: {{ $id }}</p>
-</body>
-</html>
+@extends('layouts.app')
+@section('title', 'Detail Surat')
+@section('content')
+    <h1>Detail Surat Masuk</h1>
+    @if($surat)
+
+        <p>
+            <strong>Nomor Surat</strong>
+            {{ $surat['nomor_surat'] }}
+        </p>
+        <p>
+            <strong>Tanggal</strong>
+            {{ $surat['tanggal'] }}
+        </p>
+        <p>
+            <strong>Pengirim</strong>
+            {{ $surat['pengirim'] }}
+        </p>
+        <p>
+            <strong>Perihal</strong>
+            {{ $surat['perihal'] }}
+        </p>
+    @else
+        <p>Surat Ditemukan</p>
+    @endif
+
+        <a href="{{ route('surat-masuk.index') }}">Kembali</a>
+@endsection
