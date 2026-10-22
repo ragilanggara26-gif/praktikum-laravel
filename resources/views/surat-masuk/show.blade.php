@@ -6,22 +6,22 @@
 
         <p>
             <strong>Nomor Surat</strong>
-            {{ $surat['nomor_surat'] }}
+            {{ $surat->nomor_surat }}
         </p>
         <p>
             <strong>Tanggal</strong>
-            {{ $surat['tanggal'] }}
+            {{ $surat->tanggal }}
         </p>
         <p>
             <strong>Pengirim</strong>
-            {{ $surat['pengirim'] }}
+            {{ $surat->pengirim }}
         </p>
         <p>
             <strong>Perihal</strong>
-            {{ $surat['perihal'] }}
+            {{ $surat->perihal }}
         </p>
     @else
-        <p>Surat Ditemukan</p>
+        <p>Surat Tidak Ditemukan</p>
     @endif
 
         <a href="{{ route('surat-masuk.index') }}">Kembali</a>

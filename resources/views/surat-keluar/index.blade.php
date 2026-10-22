@@ -14,18 +14,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($suratkeluar as $item)
+            @forelse ($suratkeluar as $item)
             <tr>
-                <td>{{ $item['id'] }}</td>
-                <td>{{ $item['nomor_surat'] }}</td>
-                <td>{{ $item['tanggal'] }}</td>
-                <td>{{ $item['pengirim'] }}</td>
-                <td>{{ $item['perihal'] }}</td>
+                <td>{{ $item->id }}</td>
+                <td>{{ $item->nomor_surat }}</td>
+                <td>{{ $item->tanggal }}</td>
+                <td>{{ $item->pengirim }}</td>
+                <td>{{ $item->perihal }}</td>
                 <td>
-                    <a href="{{ route('surat-keluar.show', $item['id']) }}">Detail Surat</a>
+                    <a href="{{ route('surat-keluar.show', $item->id) }}">Detail Surat</a>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td>Belum ada data surat keluar.</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 @endsection

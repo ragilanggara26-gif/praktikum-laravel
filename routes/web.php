@@ -17,7 +17,7 @@ use App\Http\Controllers\SuratMasukController;
 //Check Named Route
 //php artisan route:list
 
-Route::get('/index', function () {
+Route::get('/', function () {
     return view('dashboard');
 })->name('dashboard');
 
