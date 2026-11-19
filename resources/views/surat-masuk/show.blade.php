@@ -8,7 +8,14 @@
         <p class="flex items-center border-b border-slate-100 px-6 py-4 text-slate-800 hover:bg-slate-50"><strong class="w-40 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-500">Tanggal:</strong> {{ $surat->tanggal }}</p>
         <p class="flex items-center border-b border-slate-100 px-6 py-4 text-slate-800 hover:bg-slate-50"><strong class="w-40 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-500">Pengirim:</strong> {{ $surat->pengirim }}</p>
         <p class="flex items-center border-b border-slate-100 px-6 py-4 text-slate-800 hover:bg-slate-50"><strong class="w-40 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-500">Perihal:</strong> {{ $surat->perihal }}</p>
-        <p class="flex items-center px-6 py-4 text-slate-800 hover:bg-slate-50"><strong class="w-40 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-500">Keterangan:</strong> {{ $surat->keterangan ?? '-' }}</p>
+        <p class="flex items-center border-b border-slate-100 px-6 py-4 text-slate-800 hover:bg-slate-50"><strong class="w-40 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-500">Keterangan:</strong> {{ $surat->keterangan ?? '-' }}</p>
+        <p class="flex items-center border-b border-slate-100 px-6 py-4 text-slate-800 hover:bg-slate-50"><strong class="w-40 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-500">Kategori:</strong> {{ $surat->category?->nama ?? 'Tanpa kategori' }}</p>
+
+        @if ($surat->lampiran)
+            <p class="flex items-center px-6 py-4 text-slate-800 hover:bg-slate-50"><strong class="w-40 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-500">Lampiran:</strong>
+                <a href="{{ asset('storage/' . $surat->lampiran) }}" target="_blank" rel="noopener" class="text-indigo-600 hover:underline">Lihat lampiran</a>
+            </p>
+        @endif
 
         <a href="{{ route('surat-masuk.index') }}" class="m-6 inline-block rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700">&larr; Kembali</a>
     </div>

@@ -11,21 +11,40 @@
         <p class="mb-4 px-4 py-3 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700">{{ session('success') }}</p>
     @endif
 
+    <form method="GET" action="{{ route('surat-keluar.index') }}" class="mb-4 flex flex-wrap items-center gap-2">
+        <input type="text" name="q" value="{{ request('q') }}"
+               placeholder="Nomor, pengirim, atau perihal"
+               class="w-64 rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+        <select name="category_id"
+                class="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+            <option value="">Semua kategori</option>
+            @foreach ($categories as $kategori)
+                <option value="{{ $kategori->id }}" @selected(request('category_id') == $kategori->id)>
+                    {{ $kategori->nama }}
+                </option>
+            @endforeach
+        </select>
+        <button type="submit" class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">Cari / Filter</button>
+        <a href="{{ route('surat-keluar.index') }}" class="text-sm font-medium text-slate-500 hover:text-slate-800 hover:underline">Reset</a>
+    </form>
+
     <table class="w-full bg-white text-sm text-left border border-slate-200 rounded-lg shadow-sm">
         <thead class="bg-slate-200 text-slate-700">
             <tr>
                 <th class="px-4 py-3">No</th><th class="px-4 py-3">Nomor</th><th class="px-4 py-3">Tanggal</th>
-                <th class="px-4 py-3">Pengirim</th><th class="px-4 py-3">Perihal</th><th class="px-4 py-3">Aksi</th>
+                <th class="px-4 py-3">Pengirim</th><th class="px-4 py-3">Perihal</th>
+                <th class="px-4 py-3">Kategori</th><th class="px-4 py-3">Aksi</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-slate-100">
         @forelse ($suratKeluar as $surat)
             <tr class="hover:bg-slate-50">
-                <td class="px-4 py-3">{{ $loop->iteration }}</td>
+                <td class="px-4 py-3">{{ $suratKeluar->firstItem() + $loop->index }}</td>
                 <td class="px-4 py-3">{{ $surat->nomor_surat }}</td>
                 <td class="px-4 py-3">{{ $surat->tanggal }}</td>
                 <td class="px-4 py-3">{{ $surat->pengirim }}</td>
                 <td class="px-4 py-3">{{ $surat->perihal }}</td>
+                <td class="px-4 py-3">{{ $surat->category?->nama ?? 'Tanpa kategori' }}</td>
                 <td class="px-4 py-3">
                     <a href="{{ route('surat-keluar.show', $surat->id) }}" class="px-2.5 py-1 rounded bg-sky-100 text-sky-700 hover:bg-sky-200">Detail</a>
 
@@ -42,8 +61,18 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="6" class="px-4 py-6 text-center text-slate-500">Belum ada surat keluar.</td></tr>
+            <tr><td colspan="7" class="px-4 py-6 text-center text-slate-500">Belum ada surat keluar.</td></tr>
         @endforelse
         </tbody>
     </table>
+
+    <div class="mt-4 flex items-center gap-3 text-sm text-slate-600">
+        @if ($suratKeluar->previousPageUrl())
+            <a href="{{ $suratKeluar->previousPageUrl() }}" class="px-3 py-1 rounded bg-slate-100 hover:bg-slate-200">Sebelumnya</a>
+        @endif
+        <span>Halaman {{ $suratKeluar->currentPage() }} dari {{ $suratKeluar->lastPage() }}</span>
+        @if ($suratKeluar->nextPageUrl())
+            <a href="{{ $suratKeluar->nextPageUrl() }}" class="px-3 py-1 rounded bg-slate-100 hover:bg-slate-200">Berikutnya</a>
+        @endif
+    </div>
 @endsection

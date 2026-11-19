@@ -3,7 +3,7 @@
 @section('content')
 <h1 class="mx-auto max-w-2xl rounded-t-2xl bg-gradient-to-r from-indigo-600 to-sky-500 px-6 py-5 text-2xl font-bold text-white">Edit Surat Masuk</h1>
 
-<form action="{{ route('surat-masuk.update', $surat->id) }}" method="POST" class="mx-auto max-w-2xl rounded-b-2xl border border-t-0 border-slate-200 bg-white shadow-md">
+<form action="{{ route('surat-masuk.update', $surat->id) }}" method="POST" enctype="multipart/form-data" class="mx-auto max-w-2xl rounded-b-2xl border border-t-0 border-slate-200 bg-white shadow-md">
     @csrf
     @method('PUT')
     <p class="border-b border-slate-100 px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Nomor Surat:<br>
@@ -22,9 +22,31 @@
         <input name="perihal" value="{{ old('perihal', $surat->perihal) }}" class="mt-2 block w-full rounded-lg border border-slate-300 px-4 py-2 text-sm font-normal normal-case tracking-normal text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
         @error('perihal') <span class="mt-1 block text-sm font-normal normal-case tracking-normal text-red-600">{{ $message }}</span> @enderror
     </p>
-    <p class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Keterangan:<br>
+    <p class="border-b border-slate-100 px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Keterangan:<br>
         <textarea name="keterangan" rows="4" class="mt-2 block w-full rounded-lg border border-slate-300 px-4 py-2 text-sm font-normal normal-case tracking-normal text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">{{ old('keterangan', $surat->keterangan) }}</textarea>
         @error('keterangan') <span class="mt-1 block text-sm font-normal normal-case tracking-normal text-red-600">{{ $message }}</span> @enderror
+    </p>
+    <p class="border-b border-slate-100 px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Kategori:<br>
+        <select name="category_id" class="mt-2 block w-full rounded-lg border border-slate-300 px-4 py-2 text-sm font-normal normal-case tracking-normal text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+            <option value="">-- Tanpa kategori --</option>
+            @foreach ($categories as $kategori)
+                <option value="{{ $kategori->id }}" @selected(old('category_id', $surat->category_id) == $kategori->id)>
+                    {{ $kategori->nama }}
+                </option>
+            @endforeach
+        </select>
+        @error('category_id') <span class="mt-1 block text-sm font-normal normal-case tracking-normal text-red-600">{{ $message }}</span> @enderror
+    </p>
+    <p class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Lampiran (PDF/JPG/PNG, maks. 2 MB):<br>
+        @if ($surat->lampiran)
+            <span class="mt-1 block text-sm font-normal normal-case tracking-normal text-slate-600">
+                Lampiran saat ini:
+                <a href="{{ asset('storage/' . $surat->lampiran) }}" target="_blank" rel="noopener" class="text-indigo-600 hover:underline">Lihat lampiran</a>
+                (unggah file baru untuk menggantinya)
+            </span>
+        @endif
+        <input type="file" name="lampiran" accept=".pdf,.jpg,.jpeg,.png" class="mt-2 block w-full rounded-lg border border-slate-300 px-4 py-2 text-sm font-normal normal-case tracking-normal text-slate-800 file:mr-4 file:rounded-md file:border-0 file:bg-indigo-50 file:px-3 file:py-1 file:text-sm file:font-semibold file:text-indigo-700 hover:file:bg-indigo-100">
+        @error('lampiran') <span class="mt-1 block text-sm font-normal normal-case tracking-normal text-red-600">{{ $message }}</span> @enderror
     </p>
     <button type="submit" class="m-6 rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">Simpan Perubahan</button>
     <a href="{{ route('surat-masuk.index') }}" class="text-sm font-medium text-slate-500 hover:text-slate-800 hover:underline">Batal</a>
