@@ -1,48 +1,48 @@
 @extends('layouts.app')
 @section('title', 'Daftar Surat Keluar')
 @section('content')
-    <h1>Daftar Surat Keluar</h1>
+    <h1 class="text-2xl font-bold mb-4">Daftar Surat Keluar</h1>
 
     @can('manage-letters')
-        <a href="{{ route('surat-keluar.create') }}">+ Tambah Surat</a>
+        <a href="{{ route('surat-keluar.create') }}" class="inline-block px-4 py-2 mb-4 rounded-md bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700">+ Tambah Surat</a>
     @endcan
 
     @if (session('success'))
-        <p style="color:green">{{ session('success') }}</p>
+        <p class="mb-4 px-4 py-3 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700">{{ session('success') }}</p>
     @endif
 
-    <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
-        <thead style="background-color: #777777;">
+    <table class="w-full bg-white text-sm text-left border border-slate-200 rounded-lg shadow-sm">
+        <thead class="bg-slate-200 text-slate-700">
             <tr>
-                <th>No</th><th>Nomor</th><th>Tanggal</th>
-                <th>Pengirim</th><th>Perihal</th><th>Aksi</th>
+                <th class="px-4 py-3">No</th><th class="px-4 py-3">Nomor</th><th class="px-4 py-3">Tanggal</th>
+                <th class="px-4 py-3">Pengirim</th><th class="px-4 py-3">Perihal</th><th class="px-4 py-3">Aksi</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="divide-y divide-slate-100">
         @forelse ($suratKeluar as $surat)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $surat->nomor_surat }}</td>
-                <td>{{ $surat->tanggal }}</td>
-                <td>{{ $surat->pengirim }}</td>
-                <td>{{ $surat->perihal }}</td>
-                <td>
-                    <a href="{{ route('surat-keluar.show', $surat->id) }}">Detail</a>
+            <tr class="hover:bg-slate-50">
+                <td class="px-4 py-3">{{ $loop->iteration }}</td>
+                <td class="px-4 py-3">{{ $surat->nomor_surat }}</td>
+                <td class="px-4 py-3">{{ $surat->tanggal }}</td>
+                <td class="px-4 py-3">{{ $surat->pengirim }}</td>
+                <td class="px-4 py-3">{{ $surat->perihal }}</td>
+                <td class="px-4 py-3">
+                    <a href="{{ route('surat-keluar.show', $surat->id) }}" class="px-2.5 py-1 rounded bg-sky-100 text-sky-700 hover:bg-sky-200">Detail</a>
 
                     @can('manage-letters')
-                        <a href="{{ route('surat-keluar.edit', $surat->id) }}">Edit</a>
+                        <a href="{{ route('surat-keluar.edit', $surat->id) }}" class="px-2.5 py-1 rounded bg-amber-100 text-amber-700 hover:bg-amber-200">Edit</a>
                         <form action="{{ route('surat-keluar.destroy', $surat->id) }}"
-                              method="POST" style="display:inline">
+                              method="POST" class="inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit"
-                              onclick="return confirm('Hapus surat ini?')">Hapus</button>
+                              onclick="return confirm('Hapus surat ini?')" class="px-2.5 py-1 rounded bg-red-100 text-red-700 hover:bg-red-200">Hapus</button>
                         </form>
                     @endcan
                 </td>
             </tr>
         @empty
-            <tr><td colspan="6">Belum ada surat keluar.</td></tr>
+            <tr><td colspan="6" class="px-4 py-6 text-center text-slate-500">Belum ada surat keluar.</td></tr>
         @endforelse
         </tbody>
     </table>
